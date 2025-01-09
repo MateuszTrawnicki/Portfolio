@@ -14,7 +14,7 @@ public class RegisterTest extends BaseTest {
         WebElement myAccountText = new HomePage(driver)
                 .openMyAccountPage()
                 .registerNewUser("Mateusz" + random + "@test.pl", "StrongPassword123!@#")
-                .getMyAccountText();
+                .getDashboardText();
 
         Assert.assertEquals(myAccountText.getText(),"Dashboard");
 

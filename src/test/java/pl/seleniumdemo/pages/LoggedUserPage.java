@@ -8,7 +8,7 @@ import org.openqa.selenium.support.PageFactory;
 public class LoggedUserPage {
 
     @FindBy(linkText = "Dashboard")
-    private WebElement myAccount;
+    private WebElement dashboard;
 
     private WebDriver driver;
 
@@ -17,7 +17,7 @@ public class LoggedUserPage {
         this.driver = driver;
     }
 
-    public WebElement getMyAccountText() {
-        return myAccount;
+    public WebElement getDashboardText() {
+        return dashboard;
     }
 }

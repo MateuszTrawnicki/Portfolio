@@ -16,6 +16,15 @@ public class MyAccountPage {
     @FindBy(name = "register")
     private WebElement registerButton;
 
+    @FindBy(id = "username")
+    private WebElement usernameInput;
+
+    @FindBy(id = "password")
+    private WebElement passwordInput;
+
+    @FindBy(name = "login")
+    private WebElement loginButton;
+
     @FindBy(xpath = "//ul[@class='woocommerce-error']//li")
     private WebElement errors;
 
@@ -42,9 +51,24 @@ public class MyAccountPage {
         registerButton.click();
     }
 
+    public LoggedUserPage loginUserValidData(String email, String password) {
+        logIn(email,password);
+        return new LoggedUserPage(driver);
+    }
+
+    public void logIn(String username, String password) {
+        usernameInput.sendKeys(username);
+        passwordInput.sendKeys(password);
+        loginButton.click();
+    }
+
     public WebElement getErrors() {
         return errors;
     }
 
 
+    public MyAccountPage loginUserInValidData(String email, String passsoword) {
+        logIn(email,passsoword);
+        return this;
+    }
 }
