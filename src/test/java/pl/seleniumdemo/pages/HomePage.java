@@ -26,4 +26,9 @@ public class HomePage {
         myAccountLink.click();
         return new MyAccountPage(driver);
     }
+
+    public ProductListPage openShopPage() {
+        shopLink.click();
+        return new ProductListPage(driver);
+    }
 }
