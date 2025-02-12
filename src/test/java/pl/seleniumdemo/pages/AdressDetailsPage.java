@@ -1,11 +1,18 @@
 package pl.seleniumdemo.pages;
 
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 import pl.seleniumdemo.models.Customer;
+import pl.seleniumdemo.utils.ScreenshotUtil;
+
+import java.io.IOException;
 
 public class AdressDetailsPage {
 
@@ -46,13 +53,18 @@ public class AdressDetailsPage {
     private WebElement placeOrderButton;
 
     private WebDriver driver;
+    private ExtentTest test;
+    private static final Logger logger = LogManager.getLogger();
 
-    public AdressDetailsPage(WebDriver driver) {
+    public AdressDetailsPage(WebDriver driver, ExtentTest test) {
         PageFactory.initElements(driver,this);
         this.driver = driver;
+        this.test = test;
     }
 
-    public OrderDetailsPage fillAddressDetails(Customer customer, String comments) {
+    public OrderDetailsPage fillAddressDetails(Customer customer, String comments) throws IOException {
+        logger.info(("Setting address details"));
+        test.log(Status.PASS,"Setting address details");
         firstNameInput.sendKeys(customer.getFirstName());
         lastNameInput.sendKeys(customer.getLastName());
         companyNameInput.sendKeys(customer.getCompanyName());
@@ -63,8 +75,13 @@ public class AdressDetailsPage {
         billingCityInput.sendKeys(customer.getCity());
         billingPhoneInput.sendKeys(customer.getPhone());
         billingEmailInput.sendKeys(customer.getEmail());
+        ScreenshotUtil.getScreen(driver,"Address details set", test);
         orderComentsInput.sendKeys(comments);
+        ScreenshotUtil.getScreen(driver,"Address details set2", test);
+        logger.info(("Ordering..."));
+        test.log(Status.PASS,"Ordering...");
         placeOrderButton.click();
+        ScreenshotUtil.getScreen(driver,"Ordered", test);
         return new OrderDetailsPage(driver);
     }
 }
