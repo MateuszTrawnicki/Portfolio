@@ -20,7 +20,7 @@ public class BaseTest {
 
     @BeforeSuite
     public void beforeSuit() {
-        htmlReporter = new ExtentHtmlReporter("index.html");
+        htmlReporter = new ExtentHtmlReporter("Report tests.html");
         extentReports = new ExtentReports();
         extentReports.attachReporter(htmlReporter);
     }
