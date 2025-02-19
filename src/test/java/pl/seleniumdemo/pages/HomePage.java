@@ -62,6 +62,8 @@ public class HomePage {
     }
 
     public ProductListPage openShopPage() {
+        logger.info("Opening products list");
+        test.log(Status.PASS, "Opening product list");
         shopLink.click();
         return new ProductListPage(driver, test);
     }
