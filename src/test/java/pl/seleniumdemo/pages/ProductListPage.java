@@ -32,16 +32,15 @@ public class ProductListPage {
     }
 
     public ProductPage openProduct(String title) throws IOException {
-        ScreenshotUtil.getScreen(driver,"Product list opened", test);
         By productXpath = (By.xpath("//h2[text()='" + title + "']"));
         SeleniumHelper.waitForClickable(productXpath,driver);
         driver.findElement(productXpath).click();
+        logger.info("Product picked");
         ScreenshotUtil.getScreen(driver,"Product picked", test);
         return new ProductPage(driver, test);
     }
 
     public ProductListPage selectProduct(String title) throws IOException {
-        ScreenshotUtil.getScreen(driver,"Product list opened", test);
         By productXpath = (By.xpath("//a[@aria-label='Add “" + title + "” to your cart']"));
         SeleniumHelper.waitForClickable(productXpath,driver);
         driver.findElement(productXpath).click();
@@ -52,10 +51,10 @@ public class ProductListPage {
     public CartPage viewCart() throws IOException {
         logger.info("Opening view cart");
         viewCartButton.click();
-        ScreenshotUtil.getScreen(driver,"View cart showed", test);
         logger.info("Going to view cart");
         SeleniumHelper.waitForClickable(getViewCartButton,driver);
         getViewCartButton.click();
+        ScreenshotUtil.getScreen(driver,"View cart showed", test);
         return new CartPage(driver, test);
     }
 }

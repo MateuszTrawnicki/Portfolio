@@ -81,6 +81,7 @@ public class AdressDetailsPage {
         logger.info(("Ordering..."));
         test.log(Status.PASS,"Ordering...");
         placeOrderButton.click();
+        logger.info("Place order performed");
         ScreenshotUtil.getScreen(driver,"Place order performed", test);
         return new OrderDetailsPage(driver, test);
     }

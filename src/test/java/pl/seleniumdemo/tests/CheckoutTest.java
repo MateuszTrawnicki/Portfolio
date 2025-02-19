@@ -31,7 +31,7 @@ public class CheckoutTest extends BaseTest {
                 .openAdressDetails()
                 .fillAddressDetails(customer,"Some random comment");
 
-        List<String> actualText = orderDetailsPage.getProductName().stream().map(element -> element.getText().replaceAll("\\s+"," ").trim()).filter(text -> !text.isEmpty()).toList();
+        List<String> actualText = orderDetailsPage.getActualText();
         List<String> expectedText = Arrays.asList("Java Selenium WebDriver × 1");
 
         Assert.assertEquals(orderDetailsPage.getOrderNotice().getText(),"Thank you. Your order has been received.");

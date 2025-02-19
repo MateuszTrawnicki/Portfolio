@@ -33,6 +33,7 @@ public class ProductPage {
         logger.info("Adding product to cart");
         test.log(Status.PASS, "Adding product to cart");
         addToCartButton.click();
+        logger.info("Product added to cart");
         ScreenshotUtil.getScreen(driver,"Product added to cart", test);
         return this;
     }
@@ -41,7 +42,8 @@ public class ProductPage {
         logger.info("Going to view cart");
         test.log(Status.PASS, "Going to view cart");
         viewCartButton.click();
-        ScreenshotUtil.getScreen(driver,"Cart view", test);
+        logger.info("Cart view opened");
+        ScreenshotUtil.getScreen(driver,"Cart view opened", test);
         return new CartPage(driver, test);
     }
 }

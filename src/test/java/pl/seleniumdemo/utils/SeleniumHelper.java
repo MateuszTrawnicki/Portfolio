@@ -22,4 +22,10 @@ public class SeleniumHelper {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
+
+    public static void waitForPageToBeStable(WebDriver driver) {
+        new WebDriverWait(driver, Duration.ofSeconds(5)).until(webDriver ->
+                ((JavascriptExecutor) webDriver).executeScript("return document.readyState").equals("complete"));
+    }
+
 }

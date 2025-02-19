@@ -36,15 +36,25 @@ public class OrderDetailsPage {
     }
 
     public List<WebElement> getProductName() {
-        SeleniumHelper.waitForVisibility(By.xpath("//td[contains(@class,'product-name')]"),driver);
-        return driver.findElements(By.xpath("//td[contains(@class,'product-name')]"));
+        SeleniumHelper.waitForPageToBeStable(driver);
+        try {
+            SeleniumHelper.waitForVisibility(By.xpath("//td[contains(@class,'product-name')]"), driver);
+            return driver.findElements(By.xpath("//td[contains(@class,'product-name')]"));
+        } catch (StaleElementReferenceException e) {
+            SeleniumHelper.waitForVisibility(By.xpath("//td[contains(@class,'product-name')]"), driver);
+            return driver.findElements(By.xpath("//td[contains(@class,'product-name')]"));
+        }
     }
 
+
+
     public double getSubtotalAmount() {
+        SeleniumHelper.waitForVisibility(By.xpath("//tfoot//span[@class='woocommerce-Price-amount amount']"),driver);
         return Double.parseDouble(subtotalAmount.getText().trim().replace(",",".").replace("zł",""));
     }
 
     public double getTotalAmount() {
+        SeleniumHelper.waitForVisibility(By.xpath("//tfoot//span[@class='woocommerce-Price-amount amount']"),driver);
         return Double.parseDouble(totalAmount.getText().trim().replace(",",".").replace("zł",""));
     }
 
@@ -54,58 +64,26 @@ public class OrderDetailsPage {
     }
 
     public double getSumOfProductsAmount() {
-        List<WebElement> productAmounts = getProductsAmount();
-        return productAmounts.stream()
-                .mapToDouble(e -> {
-                    try {
-                        return Double.parseDouble(e.getText().trim().replace(",",".").replace("zł",""));
-                    } catch (StaleElementReferenceException ex) {
-                        e = driver.findElement(By.xpath("//tbody//span[@class='woocommerce-Price-amount amount']"));
-                        return Double.parseDouble(e.getText().trim().replace(",",".").replace("zł",""));
-                    }
-                })
-                .sum();
+        try {
+            return getProductsAmount().stream()
+                    .map(WebElement::getText)
+                    .map(text -> text.trim().replace(",", ".").replace("zł", ""))
+                    .mapToDouble(Double::parseDouble)
+                    .sum();
+        } catch (StaleElementReferenceException e) {
+            return getProductsAmount().stream()
+                    .map(WebElement::getText)
+                    .map(text -> text.trim().replace(",", ".").replace("zł", ""))
+                    .mapToDouble(Double::parseDouble)
+                    .sum();
+        }
     }
-
-//    public List<String> getActualText(){
-//        return getProductName().stream().map(element -> element.getText().trim()).filter(text -> !text.isEmpty()).toList();
-//    }
 
     public List<String> getActualText() {
-        List<String> actualText = new ArrayList<>();
-
-        // Próbujemy ponownie zlokalizować elementy w przypadku wyjątku StaleElementReferenceException
-        try {
-            List<WebElement> productNames = getProductName(); // Zaktualizowane elementy
-            for (WebElement element : productNames) {
-                try {
-                    String text = element.getText().trim();
-                    if (!text.isEmpty()) {
-                        actualText.add(text);
-                    }
-                } catch (StaleElementReferenceException ex) {
-                    // Jeśli wystąpi StaleElementReferenceException, próbujemy ponownie znaleźć element
-                    productNames = getProductName(); // Ponowne zlokalizowanie elementów
-                    element = productNames.get(productNames.indexOf(element)); // Ponowne przypisanie elementu
-                    String text = element.getText().trim();
-                    if (!text.isEmpty()) {
-                        actualText.add(text);
-                    }
-                }
-            }
-        } catch (StaleElementReferenceException ex) {
-            // Obsługuje przypadek, gdy cała lista elementów jest stale zaktualizowana
-            List<WebElement> productNames = getProductName(); // Ponowne zlokalizowanie elementów
-            for (WebElement element : productNames) {
-                String text = element.getText().trim();
-                if (!text.isEmpty()) {
-                    actualText.add(text);
-                }
-            }
-        }
-
-        return actualText;
+        return getProductName().stream()
+                .map(element -> element.getText().replaceAll("\\s+", " ").trim())
+                .filter(text -> !text.isEmpty())
+                .toList();
     }
-
 
 }

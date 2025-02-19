@@ -33,6 +33,7 @@ public class CartPage {
         test.log(Status.PASS,"Going to proceed");
         SeleniumHelper.waitForClickable(proceedToCheckoutButton,driver);
         proceedToCheckoutButton.click();
+        logger.info("Proceed view");
         ScreenshotUtil.getScreen(driver,"Proceed view", test);
         return new AdressDetailsPage(driver, test);
     }
