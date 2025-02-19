@@ -23,6 +23,21 @@ public class HomePage {
     @FindBy(xpath = "//span[text()='Cart']")
     private WebElement cartLink;
 
+    @FindBy(name = "nimble_name")
+    private WebElement nameInputContactUs;
+
+    @FindBy(name = "nimble_email")
+    private WebElement emailInputContactUs;
+
+    @FindBy(name = "nimble_message")
+    private WebElement messageInputContactUs;
+
+    @FindBy(name = "nimble_submit")
+    private WebElement messageSubmit;
+
+    @FindBy(xpath = "//span[@class='sek-form-message']")
+    private WebElement messageSendInfo;
+
     private WebDriver driver;
 
     private ExtentTest test;
@@ -47,7 +62,29 @@ public class HomePage {
     }
 
     public ProductListPage openShopPage() {
+        logger.info("Opening products list");
+        test.log(Status.PASS, "Opening product list");
         shopLink.click();
         return new ProductListPage(driver, test);
+    }
+
+    public HomePage sendMessageByContactUs(String name, String email, String message) throws IOException {
+        nameInputContactUs.sendKeys(name);
+        logger.info("Name entered");
+        ScreenshotUtil.getScreen(driver, "Name entered", test);
+        emailInputContactUs.sendKeys(email);
+        logger.info("Email entered");
+        ScreenshotUtil.getScreen(driver,"Email entered", test);
+        messageInputContactUs.sendKeys(message);
+        logger.info("Message entered");
+        ScreenshotUtil.getScreen(driver,"Message entered", test);
+        test.log(Status.PASS,"Send message performing");
+        messageSubmit.click();
+        ScreenshotUtil.getScreen(driver,"Message performed", test);
+        return this;
+    }
+
+    public WebElement messageSendInfo(){
+        return messageSendInfo;
     }
 }

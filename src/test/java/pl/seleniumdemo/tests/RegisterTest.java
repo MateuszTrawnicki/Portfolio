@@ -34,7 +34,7 @@ public class RegisterTest extends BaseTest {
 
         WebElement error = new HomePage(driver, test)
                 .openMyAccountPage()
-                .registerUserWithSameEmail("Mateusz@test.pl", "StrongPassword123!@#")
+                .registerUserWithSameEmail("Mateusz169@test.pl", "StrongPassword123!@#")
                 .getErrors();
 
         Assert.assertTrue(error.getText().contains("Error: An account is already registered with yo"));

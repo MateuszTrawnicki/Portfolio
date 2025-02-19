@@ -19,7 +19,7 @@ public class LogInTest extends BaseTest {
 
         WebElement dashboardLink = new HomePage(driver, test)
                 .openMyAccountPage()
-                .setUserValidData("Mateusz827@test.pl","StrongPassword123!@#")
+                .setUserValidData("Mateusz169@test.pl","StrongPassword123!@#")
                 .logInPerform()
                 .getDashboardText();
 
